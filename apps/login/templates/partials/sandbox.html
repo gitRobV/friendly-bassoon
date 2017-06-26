@@ -1,0 +1,28 @@
+{% if user %}
+    <p>ID: {{ user['id'] }}</p>
+    <p>First Name: {{ user['first_name'] }}</p>
+    <p>Last Name: {{ user['last_name'] }}</p>
+    <p>Occupation: {{ user['email'] }}</p>
+    <hr>
+{% endif %}
+
+
+{% if user %}
+    <p>ID: {{ user['id'] }}</p>
+    <p>First Name: {{ user['first_name'] }}</p>
+    <p>Last Name: {{ user['last_name'] }}</p>
+    <p>Occupation: {{ user['email'] }}</p>
+    <hr>
+{% endif %}
+
+
+
+
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <p class="alert middle">{{message}}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}

@@ -1,0 +1,69 @@
+{% include '../partials/head.html' %}
+<div id="wrapper">
+    <div class="profile">
+        <span class="default_img"><i class="fa fa-user" aria-hidden="true"></i></span>
+        <div class="info">
+            <h2>Welcome Back {{ user.f_name }}</h2>
+            <p><strong>Secrets Posted: </strong> <span>12</span><br>
+                <strong>Secrets Liked: </strong> <span>32</span></p>
+        </div>
+        <div class="secret_form">
+            <form action="/post_secret" method="post">
+                 {% csrf_token %}
+                <div class="form_group">
+                    <label for="secret">Post a Secret: {{ request.session.process }}</label>
+                    <textarea id="secret" name="secret" rows="8" cols="80"></textarea>
+                </div>
+                <input type="hidden" name="user_id" value="{{ user.id }}">
+                <input type="submit" name="submit" value="Post Secret">
+            </form>
+        </div>
+    </div>
+    <div id="secret_lists">
+        <div id="most_popular">
+            <h2>Most Popular Secrets</h2>
+            <ul class="popular_secrets">
+                {%     if popular_secrets %}
+                {%         for secret in popular_secrets %}
+                <li class="secret">
+                    <h4>Secret submitted at: <span>{{ secret.created_at }}</span></h4>
+                    <p>{{ secret.secret }}</p>
+                    <span>{{ secret.user_likes.count }} Likes</span>
+                        {% if secret in user_likes %}
+                            <a style="color: red;" href="/unlike/{{ secret.id }}"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                        {% else %}
+                            <a style="color: red;" href="/like/{{ secret.id }}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                        {% endif %}
+                        {% if secret.user_id == user.id %}
+                            <a href="/secret/delete/{{ secret.id }}">Delete</a>
+                        {% endif %}
+                </li>
+                {%         endfor %}
+                {%     endif %}
+            </ul>
+        </div>
+        <div id="recent">
+            <h2>Recent Secrets</h2>
+            <ul class="resent_secrets">
+                {%     if recent_secrets %}
+                {%         for secret in recent_secrets %}
+                <li class="secret">
+                    <h4>Secret submitted at: <span>{{ secret.created_at }}</span></h4>
+                    <p>{{ secret.secret }}</p>
+                    <span>{{ secret.user_likes.count }} Likes</span>
+                        {% if secret in user_likes %}
+                            <a style="color: red;" href="/unlike/{{ secret.id }}"><i class="fa fa-heart" aria-hidden="true"></i></a>
+                        {% else %}
+                            <a style="color: red;" href="/like/{{ secret.id }}"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+                        {% endif %}
+                        {% if secret.user_id == user.id %}
+                            <a href="/secret/delete/{{ secret.id }}">Delete</a>
+                        {% endif %}
+                </li>
+                {%         endfor %}
+                {%     endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% include '../partials/foot.html' %}

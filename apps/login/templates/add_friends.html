@@ -1,0 +1,28 @@
+{% include 'partials/head.html' %}
+<div id="wrapper">
+    <div class="profile">
+        {% if 'user' in session %}
+        <span class="default_img"><i class="fa fa-user" aria-hidden="true"></i></span>
+        <div class="info">
+            <h2>Welcome Back {{ session['user']['first_name'] }}</h2>
+            <p>Name: {{ session['user']['first_name'] + " " + session['user']['last_name'] }}</p>
+            <p>Email: {{ session['user']['email'] }}</p>
+        </div>
+        {% endif %}
+    </div>
+    <div id="card_box">
+        <form id="add_friend" action="/friends" method="post">
+            <div class="form_group">
+                <label for="email">E-mail: </label>
+                <input type="text" id="email" name="email" placeholder="E-mail"
+                {% if 'data' in session %}
+                value="{{ session['data'].email }}"
+                {% endif %}
+                >
+                <input type="hidden" name="status" value="Pending">
+            </div>
+            <input id="survey" type="submit" name="submit" value="Add Friend">
+        </form>
+    </div>
+</div>
+{% include 'partials/foot.html' %}

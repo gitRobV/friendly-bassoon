@@ -1,0 +1,58 @@
+{% include 'partials/head.html' %}
+<div id="wrapper">
+    <div class="profile">
+        {% if 'user' in session %}
+        <span class="default_img"><i class="fa fa-user" aria-hidden="true"></i></span>
+        <div class="info">
+            <h2>Welcome Back {{ session['user']['first_name'] }}</h2>
+            <p>Name: {{ session['user']['first_name'] + " " + session['user']['last_name'] }}</p>
+            <p>Email: {{ session['user']['email'] }}</p>
+            <p>{{ session }}</p>
+            <p>{{ result_data[0] }}</p>
+        </div>
+        {% endif %}
+    </div>
+    <div id="card_box">
+        <div id="sidebar">
+            <ul>
+                <li><a class="icon" href="/friends/add" title=""><i class="fa fa-plus" aria-hidden="true"></i> Add Friend</a></li>
+            </ul>
+        </div>
+        <div id="friend_list">
+            <h3>Friends List</h3>
+
+
+
+            {%     if result_data %}
+            {%         for friend in result_data[0] %}
+                        <div class="friend">
+                            <span class="default_img"><i class="fa fa-user" aria-hidden="true"></i></span>
+                            <div class="info">
+                                <p>Name: {{ friend['first_name'] + ' ' + friend['last_name'] }}</p>
+                                <p>Email:{{ friend['email'] }}</p>
+                            </div>
+                        </div>
+            {%         endfor %}
+            {%     endif %}
+        </div>
+        <div id="request_list">
+            <h3>Request List</h3>
+            {%         for friend in result_data[1] %}
+                <div class="friend">
+                    <span class="default_img"><i class="fa fa-user" aria-hidden="true"></i></span>
+                    <div class="info">
+                        <p>Name: {{ friend['name'] }}</p>
+                        <p>Email:{{ friend['email'] }}</p>
+                        <form action="/friends" method="post">
+                            <input type="hidden" name="status" value="Confirmed">
+                            <input type="hidden" name="email" value="{{ friend['email'] }}">
+                            <input type="submit" name="submit" value="Confirm">
+                        </form>
+                    </div>
+                </div>
+
+            {%         endfor %}
+        </div>
+    </div>
+</div>
+{% include 'partials/foot.html' %}

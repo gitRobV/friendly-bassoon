@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Morning Coffee</title>
+
+        <!-- Load Static Files -->
+        {% load staticfiles %}
+        <!-- CSS Stylesheets -->
+        <link rel="stylesheet" href="{% static '/login/css/style.css' %}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Optional Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+
+        <!-- JS Scripts - jQuery, master.js  -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{% static '/login/js/master.js' %}">
+        </script>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+
+                    {% if 'user_id' not in request.session %}
+                        <li><a href="/register"><i class="fa fa-id-badge" aria-hidden="true"></i><span class="nav_bar">Get Badge</span></a></li>
+                        <li><a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i><span class="nav_bar">Log In</span></a></li>
+                    {% else %}
+                        <li><a href="/messages"><i class="fa fa-envelope-o" aria-hidden="true"></i><span class="nav_bar">Messages</span></a></li>
+                        <li><a href="/friends"><i class="fa fa-group" aria-hidden="true"></i><span class="nav_bar">Friends</span></a></li>
+                        <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i><span class="nav_bar">Log Out</span></a></li>
+                    {% endif %}
+                        <li><a href="/"><i class="fa fa-coffee" aria-hidden="true"></i><span class="nav_bar">Wake Up</span></a></li>
+                </ul>
+            </nav>
+        </header>
+        <div class="alerts">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
